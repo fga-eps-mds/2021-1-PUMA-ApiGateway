@@ -1,29 +1,37 @@
 const express = require('express');
-const user = require('./userRouter.js')
+const user = require('./userRouter');
 
 const router = express.Router();
 
-router.get('/', (req,res) =>{
-    res.json({
-        Project: "Puma",
-        Service: "API Gateway"
-    })
-})
+router.get('/', (req, res) => {
+  res.json({
+    Project: 'Puma',
+    Service: 'API Gateway',
+  });
+});
 
-router.post('/aluno', (req, res) =>{
-    user.addAluno(req.body)
-    .then((response) => {
-        res.status(200).json({ response: response });
-    })
-    .catch((error) => {
-        res.status(400).json({ error: error });
-    });
-})
+router.post('/register', (req, res) => {
+  user.registerUser(req.body).then(() => {
+    console.log('res 200');
+    res.status(200).json({ });
+  }).catch(() => {
+    console.log('res 400');
+    res.status(400).json({ });
+  });
+});
 
-router.get('/aluno/:matriculaId', (req, res) =>{
-    user.getAluno(req.params.matriculaId).then((response) => {
-        res.json(aluno);
-    });
-})
+router.post('/login', (req, res) => {
+  user.logUserIn(req.body).then((token) => {
+    res.status(200).json({ auth: true, token });
+  }).catch((error) => {
+    res.status(400).json({ auth: false, token: null, error });
+  });
+});
 
-module.exports = app => app.use('/', router);
+router.get('/aluno/:matriculaId', (req, res) => {
+  user.getAluno(req.params.matriculaId).then((response) => {
+    res.json(response);
+  });
+});
+
+module.exports = (app) => app.use('/', router);
