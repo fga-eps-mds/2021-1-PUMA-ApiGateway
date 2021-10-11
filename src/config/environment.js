@@ -7,4 +7,11 @@ module.exports = {
       global.SECRET = process.env.SECRET;
     }
   },
+  configProject: () => {
+    if (process.env.ENVIRONMENT === 'dev') {
+      global.URL_PROJECT = `http://${process.env.IP_ADDRESS}:3000`;
+      global.SECRET = process.env.SECRET;
+    }
+  }
+
 };
