@@ -1,7 +1,8 @@
 const express = require('express');
-const user = require('./userRouter');
 const project = require('./projectRouter');
 const knowledgeArea = require('./knowledgeAreaRouter');
+const userRouter = require('./userRouter');
+
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -14,8 +15,7 @@ router.get('/', (req, res) => {
 // User routes
 
 router.post('/register', (req, res) => {
-  user.registerUser(req.body).then(() => {
-    console.log('res 200');
+  userRouter.registerUser(req.body).then(() => {
     res.status(200).json({ });
   }).catch(() => {
     console.log('res 400');
@@ -24,7 +24,7 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  user.logUserIn(req.body).then((token) => {
+  userRouter.logUserIn(req.body).then((token) => {
     res.status(200).json({ auth: true, token });
   }).catch((error) => {
     res.status(400).json({ auth: false, token: null, error });
@@ -32,7 +32,7 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/aluno/:matriculaId', (req, res) => {
-  user.getAluno(req.params.matriculaId).then((response) => {
+  userRouter.getAluno(req.params.matriculaId).then((response) => {
     res.json(response);
   });
 });
