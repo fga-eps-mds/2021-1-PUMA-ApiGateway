@@ -15,7 +15,6 @@ module.exports = {
         });
     },
     addFile: (body) =>  {
-        // console.log(body);
         const projectUrl = `${global.URL_PROJECT}/upload`;
         const reqBody = body;
         return new Promise((resolve, reject) => {
