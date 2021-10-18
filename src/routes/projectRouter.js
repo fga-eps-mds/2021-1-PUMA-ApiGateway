@@ -26,12 +26,12 @@ module.exports = {
             });
         });
     },
-    deleteProject: (projectId) =>  {
-        const projectUrl = `${global.URL_PROJECT}/projeto/deletar/${projectId}`;
-        const reqBody = projectId;
+    deleteProject: (projectIdParam) =>  {
+        const projectUrl = `${global.URL_PROJECT}/projeto/deletar/:projectId`;
+        const reqBody = projectIdParam;
         return new Promise((resolve, reject) => {
             axios.post(projectUrl, reqBody).then((response) => {
-                resolve(response);
+                resolve(response.data);
             }).catch((error) => {
                 reject(error);
             });
