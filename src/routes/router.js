@@ -41,7 +41,7 @@ router.get('/aluno/:matriculaId', (req, res) => {
 
 router.post('/projeto/cadastro', (req, res) => {
   project.addProject(req.body).then((response) => {
-    const data = response.data;
+    const { data } = response;
     res.status(200).json({ data });
   }).catch((error) => {
     res.status(400).json({ error });
@@ -50,7 +50,7 @@ router.post('/projeto/cadastro', (req, res) => {
 
 router.post('/upload', (req, res) => {
   project.addFile(req.body).then((response) => {
-    const data = response.data;
+    const { data } = response;
     res.status(200).json({ data });
   }).catch((error) => {
     res.status(400).json({ error });
@@ -59,7 +59,7 @@ router.post('/upload', (req, res) => {
 
 router.post('/projeto/deletar/:projectId', (req, res) => {
   project.deleteProject(req.params.projectId).then((response) => {
-    const data = response.data;
+    const { data } = response;
     res.status(200).json({ data });
   }).catch((error) => {
     res.status(400).json({ error });
@@ -68,7 +68,7 @@ router.post('/projeto/deletar/:projectId', (req, res) => {
 
 router.get('/areas-conhecimento', (req, res) => {
   knowledgeArea.getKnowledgeAreas(req.body).then((response) => {
-    const data = response.data;
+    const { data } = response;
     res.status(200).json({ data });
   }).catch((error) => {
     res.status(400).json({ error });

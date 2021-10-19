@@ -95,7 +95,7 @@ describe('Login', () => {
     axios.post(loginUrl, users.success.professor).then((response) => {
       assert.equal(response.data.auth, true);
       done();
-    }).catch((response) => {
+    }).catch(() => {
       console.log(users.success.professor);
       done(new Error(failedToLoginMessage));
     });
