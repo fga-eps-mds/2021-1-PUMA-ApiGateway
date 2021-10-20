@@ -1,6 +1,7 @@
 const express = require('express');
 const project = require('./projectRouter');
 const knowledgeArea = require('./knowledgeAreaRouter');
+const subjectRouter = require('./subjectRouter');
 const userRouter = require('./userRouter');
 
 const router = express.Router();
@@ -68,6 +69,37 @@ router.post('/projeto/deletar/:projectId', (req, res) => {
 
 router.get('/areas-conhecimento', (req, res) => {
   knowledgeArea.getKnowledgeAreas(req.body).then((response) => {
+    const data = response.data;
+    res.status(200).json({ data });
+  }).catch((error) => {
+    res.status(400).json({ error });
+  });
+});
+
+// Subject Routes
+
+router.get('/disciplina', (req, res) => {
+  subjectRouter.getSubjects(req.body).then((response) => {
+    const data = response.data;
+    res.status(200).json({ data });
+  }).catch((error) => {
+    res.status(400).json({ error });
+  });
+});
+
+router.post('/disciplina/cadastro', (req, res) => {
+  subjectRouter.addSubject(req.body).then((response) => {
+    const data = response.data;
+    res.status(200).json({ data });
+  }).catch((error) => {
+    res.status(400).json({ error });
+  });
+});
+
+router.get('/disciplina/consulta/:subjectIdParam', (req, res) => {
+  console.log(req.params.subjectIdParam);
+  subjectRouter.getSubject(req.params.subjectIdParam).then((response) => {
+    console.log(response.data);
     const data = response.data;
     res.status(200).json({ data });
   }).catch((error) => {
