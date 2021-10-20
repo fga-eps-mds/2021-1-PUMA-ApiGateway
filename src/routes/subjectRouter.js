@@ -28,7 +28,7 @@ module.exports = {
         });
     },
     getSubject: (subjectIdParam) => {
-        const url = `${global.URL_USER}/disciplina/consulta/` + subjectIdParam;
+        const url = `${global.URL_USER}/disciplina/` + subjectIdParam;
         return new Promise((resolve, reject) => {
             axios.get(url).then((response) => {
                 resolve(response);
