@@ -2,6 +2,7 @@ const express = require('express');
 const project = require('./projectRouter');
 const knowledgeArea = require('./knowledgeAreaRouter');
 const subjectRouter = require('./subjectRouter');
+const subareaRouter = require('./subareaRouter');
 const userRouter = require('./userRouter');
 
 const router = express.Router();
@@ -102,6 +103,18 @@ router.get('/disciplina/consulta/:subjectIdParam', (req, res) => {
     console.log(response.data);
     const data = response.data;
     res.status(200).json({ data });
+  }).catch((error) => {
+    res.status(400).json({ error });
+  });
+});
+
+// Subarea routes
+
+router.get('/subareas-conhecimento', (req, res) => {
+  subareaRouter.getSubareas(req.body).then((response) => {
+    console.log(response);
+    const data = response.data;
+    res.status(200).json( data );
   }).catch((error) => {
     res.status(400).json({ error });
   });

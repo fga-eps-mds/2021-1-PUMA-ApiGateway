@@ -2,7 +2,6 @@
 const axios = require('axios');
 
 require('../config/environment');
-const url = require("url");
 
 module.exports = {
     getSubjects: (body) => {
@@ -34,7 +33,7 @@ module.exports = {
         console.log(Url);
         return new Promise((resolve, reject) => {
             axios.get(Url, reqBody).then((response) => {
-                resolve(response.data);
+                resolve(response);
             }).catch((error) => {
                 console.log(error);
                 reject(error);
