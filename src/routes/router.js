@@ -97,15 +97,23 @@ router.post('/disciplina/cadastro', (req, res) => {
   });
 });
 
-router.get('/disciplina/:subjectIdParam', (req, res) => {
-
-  subjectRouter.getSubject(req.params.subjectIdParam).then((response) => {
+router.get('/disciplina/:subjectId', (req, res) => {
+  subjectRouter.getSubject(req.params.subjectId).then((response) => {
     const data = response.data;
     res.status(200).json({ data });
   }).catch((error) => {
     res.status(400).json({ error });
   });
 });
+
+router.delete('/disciplina/:subjectId', (req, res) => {
+  subjectRouter.deleteSubject(req.params.subjectId).then((response) => {
+    const data = response.data;
+    res.status(200).json({ data });
+  }).catch((error) => {
+    res.status(400).json({ error });
+  });
+})
 
 // Subarea routes
 

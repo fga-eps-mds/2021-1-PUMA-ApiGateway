@@ -1,9 +1,6 @@
 /* eslint-disable import/no-unresolved */
 const axios = require('axios');
 
-require('../config/environment');
-const url = require("url");
-
 module.exports = {
     getSubjects: (body) => {
         const Url = `${global.URL_USER}/disciplina`;
@@ -33,9 +30,18 @@ module.exports = {
             axios.get(url).then((response) => {
                 resolve(response);
             }).catch((error) => {
-                console.log(error);
                 reject(error);
             });
         });
     },
+    deleteSubject: (subjectId) => {
+        const url = `${global.URL_USER}/disciplina/` + subjectId;
+        return new Promise((resolve, reject) => {
+            axios.delete(url).then((response) => {
+                resolve(response);
+            }).catch((error) => {
+                reject(error);
+            });
+        });
+    }
 };
