@@ -110,7 +110,6 @@ router.get('/disciplina/consulta/:subjectIdParam', (req, res) => {
 
 router.get('/subareas-conhecimento', (req, res) => {
   subareaRouter.getSubareas(req.body).then((response) => {
-    console.log(response);
     const data = response.data;
     res.status(200).json( data );
   }).catch((error) => {
