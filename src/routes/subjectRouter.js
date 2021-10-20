@@ -2,6 +2,7 @@
 const axios = require('axios');
 
 require('../config/environment');
+const url = require("url");
 
 module.exports = {
     getSubjects: (body) => {
@@ -27,12 +28,9 @@ module.exports = {
         });
     },
     getSubject: (subjectIdParam) => {
-        const Url = `${global.URL_USER}/disciplina/consulta/` + subjectIdParam;
-        const reqBody = subjectIdParam;
-        console.log(reqBody);
-        console.log(Url);
+        const url = `${global.URL_USER}/disciplina/consulta/` + subjectIdParam;
         return new Promise((resolve, reject) => {
-            axios.get(Url, reqBody).then((response) => {
+            axios.get(url).then((response) => {
                 resolve(response);
             }).catch((error) => {
                 console.log(error);

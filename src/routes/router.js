@@ -98,9 +98,7 @@ router.post('/disciplina/cadastro', (req, res) => {
 });
 
 router.get('/disciplina/consulta/:subjectIdParam', (req, res) => {
-  console.log(req.params.subjectIdParam);
   subjectRouter.getSubject(req.params.subjectIdParam).then((response) => {
-    console.log(response.data);
     const data = response.data;
     res.status(200).json({ data });
   }).catch((error) => {
