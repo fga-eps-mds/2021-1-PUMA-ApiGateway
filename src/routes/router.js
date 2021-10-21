@@ -88,7 +88,7 @@ router.get('/disciplina', (req, res) => {
   });
 });
 
-router.post('/disciplina/cadastro', (req, res) => {
+router.post('/disciplina', (req, res) => {
   subjectRouter.addSubject(req.body).then((response) => {
     const data = response.data;
     res.status(200).json({ data });
