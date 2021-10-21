@@ -38,4 +38,15 @@ module.exports = {
             });
         });
     },
+    updateSubject: (body) =>  {
+        const url = `${global.URL_USER}/disciplina`;
+        const reqBody = body;
+        return new Promise((resolve, reject) => {
+            axios.put(url, reqBody).then((response) => {
+                resolve(response);
+            }).catch((error) => {
+                reject(error);
+            });
+        });
+    },
 };

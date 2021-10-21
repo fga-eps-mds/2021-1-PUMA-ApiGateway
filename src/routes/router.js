@@ -98,8 +98,16 @@ router.post('/disciplina/cadastro', (req, res) => {
 });
 
 router.get('/disciplina/:subjectIdParam', (req, res) => {
-
   subjectRouter.getSubject(req.params.subjectIdParam).then((response) => {
+    const data = response.data;
+    res.status(200).json({ data });
+  }).catch((error) => {
+    res.status(400).json({ error });
+  });
+});
+
+router.put('/disciplina', (req, res) => {
+  subjectRouter.updateSubject(req.body).then((response) => {
     const data = response.data;
     res.status(200).json({ data });
   }).catch((error) => {
