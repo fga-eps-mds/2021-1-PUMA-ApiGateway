@@ -36,6 +36,16 @@ module.exports = {
             });
         });
     },
+    updateSubject: (subject) => {
+        const url = `${global.URL_USER}/disciplina/` + subject.subjectid;
+        return new Promise((resolve, reject) => {
+            axios.put(url, subject).then((response) => {
+                resolve(response);
+            }).catch((error) => {
+                reject(error);
+            });
+        });
+    },
     deleteSubject: (subjectId) => {
         const url = `${global.URL_USER}/disciplina/` + subjectId;
         return new Promise((resolve, reject) => {
