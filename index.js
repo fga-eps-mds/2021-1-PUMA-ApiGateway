@@ -2,13 +2,18 @@ const express = require('express');
 const cors = require('cors');
 const environment = require('./src/config/environment');
 
+environment.configEnv();
+
 const app = express();
-app.use(cors());
+const corsOptions = {
+  origin: `${global.URL_HOM}`,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ extended: true, limit: '100mb' }));
 
-environment.configEnv();
 
 require('./src/routes/router')(app);
 
