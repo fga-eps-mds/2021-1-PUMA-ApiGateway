@@ -1,16 +1,17 @@
 /* eslint-disable import/no-unresolved */
 const axios = require('axios');
+const { response } = require('express');
 
 require('../config/environment');
 
 module.exports = {
-    getSubareas: (body) => {
+    getSubareas: () => {
         const Url = `${global.URL_USER}/subareas-conhecimento`;
-        const reqBody = body;
         return new Promise((resolve, reject) => {
-            axios.get(Url, reqBody).then((response) => {
+            axios.get(Url).then((response) => {
                 resolve(response);
             }).catch((error) => {
+                console.log(error);
                 reject(error);
             });
         });
