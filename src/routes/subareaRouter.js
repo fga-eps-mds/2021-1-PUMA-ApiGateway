@@ -11,7 +11,6 @@ module.exports = {
             axios.get(Url).then((response) => {
                 resolve(response);
             }).catch((error) => {
-                console.log(error);
                 reject(error);
             });
         });
