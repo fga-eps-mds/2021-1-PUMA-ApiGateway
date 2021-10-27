@@ -19,7 +19,6 @@ module.exports = {
       axios.post(projectUrl, reqBody).then((response) => {
         resolve(response);
       }).catch((error) => {
-        console.log(error);
         reject(error);
       });
     });

@@ -18,7 +18,6 @@ router.post('/register', (req, res) => {
   userRouter.registerUser(req.body).then(() => {
     res.status(200).json({ });
   }).catch(() => {
-    console.log('res 400');
     res.status(400).json({ });
   });
 });
