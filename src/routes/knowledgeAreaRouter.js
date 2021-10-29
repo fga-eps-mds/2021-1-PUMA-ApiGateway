@@ -1,15 +1,14 @@
-const axios = require('axios');
+const express = require('express');
+const router = express.Router();
 
-module.exports = {
-  getKnowledgeAreas: (body) => {
-    const projectUrl = `${global.URL_PROJECT}/areas-conhecimento`;
-    const reqBody = body;
-    return new Promise((resolve, reject) => {
-      axios.get(projectUrl, reqBody).then((response) => {
-        resolve(response);
-      }).catch((error) => {
-        reject(error);
-      });
-    });
-  },
-};
+const knowledgeAreaController = require('../controller/knowledgeAreaController');
+
+router.get('/', (req, res) => {
+  knowledgeAreaController.getKnowledgeAreas().then((response) => {
+    res.status(200).json(response.data);
+  }).catch(() => {
+    res.status(400).json({});
+  });
+});
+
+module.exports = router;
