@@ -4,7 +4,7 @@ const router = express.Router();
 const projectController = require('../controller/projectController');
 const authentication = require('../utils/authentication');
 
-router.post('/projeto/cadastro', (req, res) => {
+router.post('/', (req, res) => {
   projectController.addProject(req.body).then((response) => {
     const { data } = response;
     res.status(200).json({ data });
@@ -22,12 +22,12 @@ router.post('/upload', (req, res) => {
   });
 });
 
-router.post('/projeto/deletar/:projectId', (req, res) => {
+router.delete('/delete/:projectId', (req, res) => {
   projectController.deleteProject(req.params.projectId).then((response) => {
-    const { data } = response;
-    res.status(200).json({ data });
+    res.status(200).json(response.data);
   }).catch((error) => {
-    res.status(400).json({ error });
+    console.log(error)
+    res.status(400).json({msg: 'deu erro'});
   });
 });
 
@@ -58,7 +58,7 @@ router.get('/project/:projectId', authentication.authenticateProfessor, (req, re
 router.get('/subject', authentication.authenticateAny, (req, res) => {
   projectController.getAllSubjects(req.body).then((response) => {
     res.status(200).json(response.data);
-  }).catch((err) => {
+  }).catch((err) => { 
     res.status(400).json({ msg: err });
   });
 });
@@ -75,6 +75,8 @@ router.put('/alocate/:projectId/status', authentication.authenticateProfessor, (
   projectController.putProposalStatus(req.params.projectId, req.body).then((response) => {
     res.status(200).json(response.data);
   }).catch((err) => {
-    res.status(400).json({ msg: err, hehe: 'foi o gay' });
+    res.status(400).json({ msg: err});
   });
 });
+
+module.exports = router;

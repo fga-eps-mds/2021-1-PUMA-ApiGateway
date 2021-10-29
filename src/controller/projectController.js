@@ -8,7 +8,7 @@ const projUrlputProposalStatus = `${global.URL_PROJECT}/alocate/`;
 
 module.exports = {
   addProject: (body) => {
-    const projectUrl = `${global.URL_PROJECT}/projeto/cadastro`;
+    const projectUrl = `${global.URL_PROJECT}/project`;
     const reqBody = body;
     return new Promise((resolve, reject) => {
       axios.post(projectUrl, reqBody).then((response) => {
@@ -30,10 +30,9 @@ module.exports = {
     });
   },
   deleteProject: (projectIdParam) => {
-    const projectUrl = `${global.URL_PROJECT}/projeto/deletar/:projectId`;
-    const reqBody = projectIdParam;
+    const projectUrl = `${global.URL_PROJECT}/project/`;
     return new Promise((resolve, reject) => {
-      axios.post(projectUrl, reqBody).then((response) => {
+      axios.delete(projectUrl + projectIdParam).then((response) => {
         resolve(response.data);
       }).catch((error) => {
         reject(error);

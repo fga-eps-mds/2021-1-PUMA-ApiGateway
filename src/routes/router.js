@@ -1,6 +1,8 @@
 const express = require('express');
+const endpoints = require('../utils/endpoints');
 const userRouter = require('./userRouter');
 const projectRouter = require('./projectRouter');
+const knowledgeAreaRouter = require('./knowledgeAreaRouter');
 
 const router = express.Router();
 
@@ -14,4 +16,5 @@ module.exports = (app) => {
   app.use('/', [router]);
   app.use('/user', [userRouter]);
   app.use('/project', [projectRouter]);
+  app.use('/areas-conhecimento', [knowledgeAreaRouter]);
 };
