@@ -1,40 +1,91 @@
-/* eslint-disable import/no-unresolved */
-const axios = require('axios');
-require('../config/environment');
+const express = require('express');
+const projectController = require('../controller/projectController');
+const authentication = require('../utils/authentication');
 
-module.exports = {
-    addProject: (body) =>  {
-        const projectUrl = `${global.URL_PROJECT}/projeto/cadastro`;
-        const reqBody = body;
-        return new Promise((resolve, reject) => {
-            axios.post(projectUrl, reqBody).then((response) => {
-                resolve(response);
-            }).catch((error) => {
-                reject(error);
-            });
-        });
-    },
-    addFile: (body) =>  {
-        const projectUrl = `${global.URL_PROJECT}/upload`;
-        const reqBody = body;
-        return new Promise((resolve, reject) => {
-            axios.post(projectUrl, reqBody).then((response) => {
-                resolve(response);
-            }).catch((error) => {
-                console.log(error);
-                reject(error);
-            });
-        });
-    },
-    deleteProject: (projectIdParam) =>  {
-        const projectUrl = `${global.URL_PROJECT}/projeto/deletar/:projectId`;
-        const reqBody = projectIdParam;
-        return new Promise((resolve, reject) => {
-            axios.post(projectUrl, reqBody).then((response) => {
-                resolve(response.data);
-            }).catch((error) => {
-                reject(error);
-            });
-        });
-    },
-};
+const router = express.Router();
+
+router.get('/alocated/:subjectId', authentication.authenticateProfessor, (req, res) => {
+  projectController.getAlocated(req.params.subjectId).then((response) => {
+    res.status(200).json(response.data);
+  }).catch((err) => {
+    res.status(400).json({ msg: err });
+  });
+});
+
+router.get('/myProposals', authentication.authenticateAny, (req, res) => {
+  projectController.getMyProposals(req.headers.auth).then((response) => {
+    res.status(200).json(response.data);
+  }).catch((err) => {
+    res.status(400).json({ msg: err });
+  });
+});
+
+router.put('/alocated/status', authentication.authenticateProfessor, (req, res) => {
+  projectController.putAlocated(req.body).then((response) => {
+    res.status(200).json(response.data);
+  }).catch((err) => {
+    res.status(400).json({ msg: err });
+  });
+});
+
+router.get('/project/:projectId', authentication.authenticateProfessor, (req, res) => {
+  projectController.getProject(req.params.projectId).then((response) => {
+    res.status(200).json(response.data);
+  }).catch((err) => {
+    res.status(400).json({ msg: err });
+  });
+});
+
+router.get('/subject', authentication.authenticateAny, (req, res) => {
+  projectController.getAllSubjects(req.body).then((response) => {
+    res.status(200).json(response.data);
+  }).catch((err) => {
+    res.status(400).json({ msg: err });
+  });
+});
+
+router.put('/proposal/:projectId', authentication.authenticateProfessor, (req, res) => {
+  projectController.putProposal(req.params.projectId, req.body).then((response) => {
+    res.status(200).json(response.data);
+  }).catch((err) => {
+    res.status(400).json({ msg: err });
+  });
+});
+
+router.put('/alocate/:projectId/status', authentication.authenticateProfessor, (req, res) => {
+  projectController.putProposalStatus(req.params.projectId, req.body).then((response) => {
+    res.status(200).json(response.data);
+  }).catch((err) => {
+    res.status(400).json({ msg: err, hehe: 'foi o gay' });
+  });
+});
+
+router.post('/', authentication.authenticateAny, (req, res) => {
+  projectController.addProject(req).then((response) => {
+    const { data } = response;
+    res.status(200).json({ data });
+  }).catch((error) => {
+    console.log(error);
+    res.status(400).json({ error });
+  });
+});
+
+router.post('/upload', authentication.authenticateAny, (req, res) => {
+  projectController.addFile(req).then((response) => {
+    const { data } = response;
+    res.status(200).json({ data });
+  }).catch((error) => {
+    res.status(400).json({ error });
+  });
+});
+
+router.delete('/delete/:projectId', authentication.authenticateAny, (req, res) => {
+  projectController.deleteProject(req.params.projectId).then((response) => {
+    res.status(200).json(response.data);
+  }).catch((error) => {
+    console.log(error)
+    res.status(400).json({msg: 'deu erro'});
+  });
+});
+
+module.exports = router;

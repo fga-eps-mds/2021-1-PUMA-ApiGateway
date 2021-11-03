@@ -6,12 +6,25 @@ environment.configEnv();
 
 const users = require('./constants');
 
-const registerUrl = `${global.URL_GATEWAY}/register`;
-const loginUrl = `${global.URL_GATEWAY}/login`;
+const registerUrl = `${global.URL_GATEWAY}/user/register`;
+const loginUrl = `${global.URL_GATEWAY}/user/login`;
+const projectUrl = `${global.URL_GATEWAY}/project`;
 
 const failedToRegisterMessage = 'Failed to register';
 const userWasRegisteredMessage = 'User was Registered';
 const failedToLoginMessage = 'Failed to login';
+
+const cadastroProjects = require('./cadastroConstants');
+
+const cadastroProjectsUrl = `${global.URL_GATEWAY}/project`;
+
+const failedToRegisterProject = 'Failed to register the project';
+const failedToRegisterProjectBy1 = 'Failed to register the project, titulo was not found';
+const failedToRegisterProjectBy2 = 'Failed to register the project, descricao was not found';
+const failedToRegisterProjectBy3 = 'Failed to register the project, resultadoEsperado was not found';
+const failedToRegisterProjectBy4 = 'Failed to register the project, areasConhecimento was not found';
+
+let auth = '';
 
 describe('Register Success', () => {
   it('Should register Aluno', (done) => {
@@ -94,9 +107,9 @@ describe('Login', () => {
   it('Should Login Professor', (done) => {
     axios.post(loginUrl, users.success.professor).then((response) => {
       assert.equal(response.data.auth, true);
+      auth = response.data.token;
       done();
-    }).catch((response) => {
-      console.log(users.success.professor);
+    }).catch(() => {
       done(new Error(failedToLoginMessage));
     });
   });
@@ -144,6 +157,73 @@ describe('Login Fail', () => {
       done(new Error('Logged in'));
     }).catch((response) => {
       assert.equal(response.response.data.auth, false);
+      done();
+    });
+  });
+});
+
+describe('Evaluate proposal', () => {
+  it('Should accept proposal', (done) => {
+    axios.put(`${projectUrl}/alocate/1/status`,
+      { proposal: { approved: true } },
+      { headers: { auth } }).then(() => {
+        done();
+      }).catch((error) => {
+        done(new Error(error));
+      });
+  });
+
+  it('Should realocate proposal', (done) => {
+    axios.put(`${projectUrl}/proposal/2`, { subjectId: 2 },
+      { headers: { auth } }).then(() => {
+        done();
+      }).catch((error) => {
+        done(new Error(error));
+      });
+  });
+});
+
+describe('Register Project Success', () => {
+  it('Should register Projeto', (done) => {
+    axios.post(cadastroProjectsUrl, cadastroProjects.success.projeto,
+      { headers: { auth } }).then(() => {
+      done();
+    }).catch((shit) => {
+      console.log(shit);
+      done(new Error(shit));
+    });
+  });
+});
+
+describe('Register Project Fail', () => {
+  it('Should not register Projeto', (done) => {
+    axios.post(cadastroProjectsUrl, cadastroProjects.fail.projeto1).then(() => {
+      done(new Error(failedToRegisterProjectBy1));
+    }).catch(() => {
+      done();
+    });
+  });
+
+  it('Should not register Projeto', (done) => {
+    axios.post(cadastroProjectsUrl, cadastroProjects.fail.projeto2).then(() => {
+      done(new Error(failedToRegisterProjectBy2));
+    }).catch(() => {
+      done();
+    });
+  });
+
+  it('Should not register Projeto', (done) => {
+    axios.post(cadastroProjectsUrl, cadastroProjects.fail.projeto3).then(() => {
+      done(new Error(failedToRegisterProjectBy3));
+    }).catch(() => {
+      done();
+    });
+  });
+
+  it('Should not register Projeto', (done) => {
+    axios.post(cadastroProjectsUrl, cadastroProjects.fail.projeto4).then(() => {
+      done(new Error(failedToRegisterProjectBy4));
+    }).catch(() => {
       done();
     });
   });
