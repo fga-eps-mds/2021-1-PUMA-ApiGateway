@@ -16,7 +16,7 @@ routes.get('/', async (req, res) => {
 
 routes.post('/', async (req, res) => {
     subjectController.addSubject(req.body).then((response) => {
-        res.status(200).json({ response });
+        res.status(200).json(response.data);
     }).catch((response) => {
         res.status(400).json({ response });
     });
